@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Capture Tools</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Network Capture Tools</h1>
+
+        <div class="tool">
+            <h2>Tshark</h2>
+            <button id="start-tshark">Start Tshark</button>
+            <button id="stop-tshark">Stop Tshark</button>
+            <p id="tshark-status"></p>
+        </div>
+
+        <div class="tool">
+            <h2>Tcpdump</h2>
+            <button id="start-tcpdump">Start Tcpdump</button>
+            <button id="stop-tcpdump">Stop Tcpdump</button>
+            <p id="tcpdump-status"></p>
+        </div>
+    </div>
+
+    <script>
+        function updateStatus(elementId, status) {
+            document.getElementById(elementId).textContent = status;
+        }
+
+        // Start Tshark
+        document.getElementById('start-tshark').addEventListener('click', function() {
+            fetch('http://localhost:3000/start-tshark')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'started') {
+                        updateStatus('tshark-status', 'Tshark capturing started.');
+                    } else {
+                        updateStatus('tshark-status', 'Error: ' + data.error);
+                    }
+                })
+                .catch((error) => updateStatus('tshark-status', 'Fetch error: ' + error));
+        });
+
+        // Stop Tshark
+        document.getElementById('stop-tshark').addEventListener('click', function() {
+            fetch('http://localhost:3000/stop-tshark')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'stopped') {
+                        updateStatus('tshark-status', 'Tshark capturing stopped.');
+                    } else {
+                        updateStatus('tshark-status', 'Error: ' + data.error);
+                    }
+                })
+                .catch((error) => updateStatus('tshark-status', 'Fetch error: ' + error));
+        });
+
+        // Start Tcpdump
+        document.getElementById('start-tcpdump').addEventListener('click', function() {
+            fetch('http://localhost:3000/start-tcpdump')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'started') {
+                        updateStatus('tcpdump-status', 'Tcpdump capturing started.');
+                    } else {
+                        updateStatus('tcpdump-status', 'Error: ' + data.error);
+                    }
+                })
+                .catch((error) => updateStatus('tcpdump-status', 'Fetch error: ' + error));
+        });
+
+        // Stop Tcpdump
+        document.getElementById('stop-tcpdump').addEventListener('click', function() {
+            fetch('http://localhost:3000/stop-tcpdump')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'stopped') {
+                        updateStatus('tcpdump-status', 'Tcpdump capturing stopped.');
+                    } else {
+                        updateStatus('tcpdump-status', 'Error: ' + data.error);
+                    }
+                })
+                .catch((error) => updateStatus('tcpdump-status', 'Fetch error: ' + error));
+        });
+    </script>
+</body>
+</html>
+
